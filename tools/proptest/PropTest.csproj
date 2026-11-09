@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>YabeMac</RootNamespace>
+    <NoWarn>$(NoWarn);CS0618;CS0168;CS0169;CS0219;CS0649</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\YabeMac.Core\YabeMac.Core.csproj" />
+    <!-- UI independent model, compiled straight from the app sources -->
+    <Compile Include="..\..\src\YabeMac.App\Properties\*.cs" Link="Properties\%(Filename)%(Extension)" />
+    <Compile Include="..\..\src\YabeMac.App\Infra\AppSettings.cs" Link="Infra\AppSettings.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,17 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="YabeMac.SourceAddressDialog"
+        Title="Set Source Address"
+        SizeToContent="WidthAndHeight" CanResize="False"
+        WindowStartupLocation="CenterOwner">
+  <StackPanel Margin="14" Spacing="12">
+    <StackPanel Orientation="Horizontal" Spacing="10">
+      <TextBlock Text="Set Source Address" VerticalAlignment="Center" />
+      <NumericUpDown x:Name="SourceAddressValue" Width="110" Minimum="0" Maximum="127" Value="127" FormatString="0" />
+    </StackPanel>
+    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+      <Button Content="Cancel" MinWidth="72" HorizontalContentAlignment="Center" Click="OnCancel" />
+      <Button Content="OK" MinWidth="72" HorizontalContentAlignment="Center" IsDefault="True" Click="OnOk" />
+    </StackPanel>
+  </StackPanel>
+</Window>

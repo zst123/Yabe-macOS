@@ -1,0 +1,16 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="YabeMac.UserCommandStatus"
+        Title="SnapShot or Write Status" Width="1040" Height="450">
+  <DataGrid x:Name="Grid" IsReadOnly="True" AutoGenerateColumns="False" GridLinesVisibility="All" CanUserResizeColumns="True">
+    <DataGrid.Columns>
+      <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="170" />
+      <DataGridTextColumn Header="Device" Binding="{Binding Device}" Width="130" />
+      <DataGridTextColumn Header="Device Name" Binding="{Binding DeviceName}" Width="130" />
+      <DataGridTextColumn Header="Object Id" Binding="{Binding ObjectId}" Width="160" />
+      <DataGridTextColumn Header="Object Name" Binding="{Binding ObjectName}" Width="150" />
+      <DataGridTextColumn Header="Property" Binding="{Binding Property}" Width="130" />
+      <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*" />
+    </DataGrid.Columns>
+  </DataGrid>
+</Window>

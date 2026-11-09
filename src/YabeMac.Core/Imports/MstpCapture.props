@@ -1,0 +1,7 @@
+<Project>
+  <ItemGroup>
+    <!-- Original Mstp.BacnetCapture per-station statistics (internal class, wrapped by MstpCapture/MstpCaptureSession.cs).
+         BacnetCapture.cs (WinForms Form) and WiresharkSender.cs (Windows named pipe) are ported in MstpCapture/*.cs. -->
+    <Compile Include="$(YabeSvnDir)..\Mstp.BacnetCapture\BacnetNode.cs" Link="Yabe/MstpCapture/BacnetNode.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,278 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:plot="using:YabeMac.Plot"
+        xmlns:local="using:YabeMac"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="YabeMac.MainWindow"
+        xmlns:pp="using:YabeMac.PropertyPanel"
+        FontSize="12" Title="Yet Another Bacnet Explorer - Yabe" Width="1203" Height="700" MinWidth="800" MinHeight="500">
+  <DockPanel>
+    <!-- Main menu (same structure as the original MenuStrip) -->
+    <Menu DockPanel.Dock="Top" x:Name="MainMenu">
+      <MenuItem Header="_File">
+        <MenuItem Header="Object Names database">
+          <MenuItem Header="Open" Click="OnObjectNamesOpen" />
+          <MenuItem Header="Save As" Click="OnObjectNamesSaveAs" />
+          <MenuItem Header="Clean all" Click="OnObjectNamesClean" />
+        </MenuItem>
+        <MenuItem Header="Restart" Click="OnRestart" />
+        <MenuItem Header="Quit" Click="OnQuit" />
+      </MenuItem>
+      <MenuItem Header="Functions" x:Name="FunctionsMenu">
+        <MenuItem Header="Add BACnet channel" Click="OnAddChannel" />
+        <MenuItem Header="Remove channel/device" Click="OnRemoveChannelOrDevice" />
+        <Separator />
+        <MenuItem Header="Send WhoIs" Click="OnSendWhoIs" />
+        <MenuItem Header="IP services">
+          <MenuItem Header="Foreign device registration" Click="OnForeignDeviceRegistration" />
+          <MenuItem Header="Add remote BACnet/IP node" Click="OnAddRemoteIpNode" />
+          <MenuItem Header="Add remote BACnet/IP node list" Click="OnAddRemoteIpNodeList" />
+          <MenuItem Header="Edit BBMD tables" Click="OnEditBbmd" />
+        </MenuItem>
+        <MenuItem Header="Export device database" Click="OnExportDeviceDb" />
+        <MenuItem Header="Export EDE files">
+          <MenuItem Header="Export selected device" Click="OnExportEdeSelected" />
+          <MenuItem Header="Export all devices" Click="OnExportEdeAll" />
+        </MenuItem>
+        <MenuItem Header="Time synchronize" Click="OnTimeSynchronize" />
+        <MenuItem Header="Device control" Click="OnDeviceControl" />
+        <MenuItem Header="Alarm summary" Click="OnAlarmSummary" />
+        <MenuItem Header="Create object" Click="OnCreateObject" />
+        <MenuItem Header="Add hidden object" Click="OnAddHiddenObject" />
+        <Separator />
+        <MenuItem Header="Download file" Click="OnDownloadFile" />
+        <MenuItem Header="Upload file" Click="OnUploadFile" />
+        <MenuItem Header="Subscribe" Click="OnSubscribe" />
+        <MenuItem Header="Show trend log" Click="OnShowTrendLog" />
+        <MenuItem Header="Show schedule" Click="OnShowSchedule" />
+        <MenuItem Header="Show notifications" Click="OnShowNotification" />
+        <MenuItem Header="Show calendar" Click="OnShowCalendar" />
+      </MenuItem>
+      <MenuItem Header="Options">
+        <MenuItem Header="Settings" Click="OnSettings" />
+        <MenuItem Header="Start Mstp Capture Tool" Click="OnMstpCapture" />
+        <MenuItem Header="Plugins" x:Name="PluginsMenu" />
+        <MenuItem Header="User Commands" Click="OnUserCommands" />
+      </MenuItem>
+      <MenuItem Header="Help">
+        <MenuItem Header="Help" Click="OnHelp" />
+        <MenuItem Header="About" Click="OnAbout" />
+      </MenuItem>
+    </Menu>
+
+    <!-- Toolbar -->
+    <Border DockPanel.Dock="Top" Padding="4" BorderThickness="0,0,0,1" BorderBrush="#40808080">
+      <StackPanel Orientation="Horizontal" Spacing="4">
+        <Button Content="Add Channel" Click="OnAddChannel" ToolTip.Tip="Add BACnet channel" />
+        <Button Content="Remove Channel/Device" Click="OnRemoveChannelOrDevice" />
+        <Button Content="Foreign Device Registration" Click="OnForeignDeviceRegistration" />
+      </StackPanel>
+    </Border>
+
+    <!-- Log (bottom splitter panel) -->
+    <Grid DockPanel.Dock="Bottom" RowDefinitions="4,Auto,90" x:Name="LogPanel">
+      <GridSplitter Grid.Row="0" ResizeDirection="Rows" />
+      <TextBlock Grid.Row="1" Text="Log" Margin="4,2" FontWeight="SemiBold" />
+      <TextBox Grid.Row="2" x:Name="LogText" IsReadOnly="True" AcceptsReturn="True" FontFamily="Menlo,Consolas,monospace" FontSize="11" />
+    </Grid>
+
+    <!-- Left | Right -->
+    <Grid x:Name="MainGrid" ColumnDefinitions="385,4,*">
+      <!-- Left: Devices over Objects -->
+      <Grid Grid.Column="0" x:Name="LeftGrid" RowDefinitions="*,4,*">
+        <Grid Grid.Row="0" RowDefinitions="Auto,Auto,*">
+          <TextBlock Grid.Row="0" Text="Devices" Margin="4,2" FontWeight="SemiBold" />
+          <TextBox Grid.Row="1" x:Name="HighlightDevice" Watermark="HighLight Filter" Margin="2" />
+          <TreeView Grid.Row="2" x:Name="DeviceTree" SelectionChanged="OnDeviceSelected" DoubleTapped="OnDeviceDoubleTapped">
+            <TreeView.ContextMenu>
+              <ContextMenu x:Name="DeviceTreeMenu">
+                <MenuItem Header="Add BACnet channel" Click="OnAddChannel" />
+                <MenuItem Header="Remove channel/device" Click="OnRemoveChannelOrDevice" />
+                <Separator />
+                <MenuItem Header="Device view folders">
+                  <MenuItem Header="Insert folder" Click="OnInsertFolder" />
+                  <MenuItem Header="Rename folder" Click="OnRenameFolder" />
+                  <MenuItem Header="Delete folder" Click="OnDeleteFolder" />
+                  <MenuItem Header="Duplicate device" Click="OnDuplicateDevice" />
+                  <MenuItem Header="Unaffect device" Click="OnUnaffectDevice" />
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Send Who-Is" Click="OnSendWhoIs" />
+                <MenuItem Header="IP services">
+                  <MenuItem Header="Foreign device registration" Click="OnForeignDeviceRegistration" />
+                  <MenuItem Header="Add remote BACnet/IP node" Click="OnAddRemoteIpNode" />
+                  <MenuItem Header="Add remote BACnet/IP node list" Click="OnAddRemoteIpNodeList" />
+                  <MenuItem Header="Edit BBMD tables" Click="OnEditBbmd" />
+                </MenuItem>
+                <MenuItem Header="Export device database" Click="OnExportDeviceDb" />
+                <MenuItem Header="Time synchronize" Click="OnTimeSynchronize" />
+                <MenuItem Header="Device control" Click="OnDeviceControl" />
+                <MenuItem Header="Alarm summary" Click="OnAlarmSummary" />
+                <MenuItem Header="Get all object names" Click="OnGetAllObjectNames" />
+                <MenuItem Header="Create object" Click="OnCreateObject" />
+                <MenuItem Header="Add hidden object" Click="OnAddHiddenObject" />
+              </ContextMenu>
+            </TreeView.ContextMenu>
+            <TreeView.Styles>
+              <Style Selector="TreeViewItem"><Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" /></Style>
+              <Style Selector="TextBlock.hl"><Setter Property="Foreground" Value="Red" /></Style>
+            </TreeView.Styles>
+            <TreeView.ItemTemplate>
+              <TreeDataTemplate ItemsSource="{Binding Children}">
+                <StackPanel Orientation="Horizontal" Spacing="4" ToolTip.Tip="{Binding ToolTipText}" Background="Transparent">
+                  <Image Source="{Binding Glyph, Converter={x:Static local:IconConverter.Instance}}" Width="16" Height="16" VerticalAlignment="Center" />
+                  <TextBlock Text="{Binding Title}" Classes.hl="{Binding Highlighted}" />
+                </StackPanel>
+              </TreeDataTemplate>
+            </TreeView.ItemTemplate>
+          </TreeView>
+        </Grid>
+        <GridSplitter Grid.Row="1" ResizeDirection="Rows" />
+        <Grid Grid.Row="2" RowDefinitions="Auto,Auto,*">
+          <DockPanel Grid.Row="0">
+            <Button DockPanel.Dock="Right" Content="⟳" Margin="2" Padding="6,0" Click="OnRefreshObjects" ToolTip.Tip="Refresh objects" />
+            <TextBlock x:Name="AddSpaceLabel" Text="Objects" Margin="4,2" FontWeight="SemiBold" VerticalAlignment="Center" />
+          </DockPanel>
+          <TextBox Grid.Row="1" x:Name="HighlightAddress" Watermark="HighLight Filter" Margin="2" />
+          <TreeView Grid.Row="2" x:Name="ObjectTree" SelectionChanged="OnObjectSelected" DoubleTapped="OnObjectDoubleTapped">
+            <TreeView.ContextMenu>
+              <ContextMenu x:Name="ObjectTreeMenu">
+                <MenuItem Header="Subscribe" Click="OnSubscribe" />
+                <MenuItem Header="Download file" Click="OnDownloadFile" />
+                <MenuItem Header="Upload file" Click="OnUploadFile" />
+                <MenuItem Header="Show trend log" Click="OnShowTrendLog" />
+                <MenuItem Header="Show schedule" Click="OnShowSchedule" />
+                <MenuItem Header="Show notification" Click="OnShowNotification" />
+                <MenuItem Header="Show calendar" Click="OnShowCalendar" />
+                <MenuItem Header="Delete object" Click="OnDeleteObject" />
+                <MenuItem Header="Search" Click="OnSearchObjects" />
+                <MenuItem Header="Simplified view" x:Name="SimplifiedViewObjects" Click="OnSimplifiedView" />
+              </ContextMenu>
+            </TreeView.ContextMenu>
+            <TreeView.Styles>
+              <Style Selector="TreeViewItem"><Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" /></Style>
+              <Style Selector="TextBlock.hl"><Setter Property="Foreground" Value="Red" /></Style>
+            </TreeView.Styles>
+            <TreeView.ItemTemplate>
+              <TreeDataTemplate ItemsSource="{Binding Children}">
+                <StackPanel Orientation="Horizontal" Spacing="4" ToolTip.Tip="{Binding ToolTipText}" Background="Transparent">
+                  <Image Source="{Binding Glyph, Converter={x:Static local:IconConverter.Instance}}" Width="16" Height="16" VerticalAlignment="Center" />
+                  <TextBlock Text="{Binding Title}" Classes.hl="{Binding Highlighted}" />
+                </StackPanel>
+              </TreeDataTemplate>
+            </TreeView.ItemTemplate>
+          </TreeView>
+        </Grid>
+      </Grid>
+
+      <GridSplitter Grid.Column="1" ResizeDirection="Columns" />
+
+      <!-- Right: tab (subscriptions / plot) | properties -->
+      <Grid Grid.Column="2" x:Name="RightGrid" ColumnDefinitions="*,4,274">
+        <TabControl Grid.Column="0" x:Name="Tabs">
+          <TabItem Header="Subscriptions, Periodic Polling, Events/Alarms" x:Name="SubscriptionTab" FontSize="13">
+            <Grid RowDefinitions="*,4,*" x:Name="CovGrid" Loaded="OnSubscriptionsLoaded">
+              <Grid Grid.Row="0">
+                <TextBlock x:Name="DropHint1" Text="Drop a setup file or objects from the&#x0a;Address Space here to subscribe ..." Foreground="Gray" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" />
+                <DataGrid x:Name="SubscriptionGrid" AutoGenerateColumns="False" IsReadOnly="False" CanUserResizeColumns="True" CanUserReorderColumns="True" GridLinesVisibility="All" SelectionMode="Extended" Background="Transparent" DragDrop.AllowDrop="True">
+                  <DataGrid.ContextMenu>
+                    <ContextMenu x:Name="EventSpaceMenu">
+                      <MenuItem Header="Start saving Cov/Event/Alarm Log" x:Name="EventLogMenuItem" Click="OnToggleEventLog" />
+                      <MenuItem Header="Change subscription to COV" x:Name="ChangeToCovMenuItem" Click="OnChangeToCov" />
+                      <MenuItem Header="Change subscription to polling" x:Name="ChangeToPollingMenuItem" Click="OnChangeToPolling" />
+                      <MenuItem Header="Change polling rate" x:Name="ChangePollingRateMenuItem" Click="OnChangePollingRate" />
+                    </ContextMenu>
+                  </DataGrid.ContextMenu>
+                  <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Show" Width="60">
+                      <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                          <CheckBox IsChecked="{Binding Show, Mode=TwoWay}" HorizontalAlignment="Center" MinWidth="0" Padding="0" />
+                        </DataTemplate>
+                      </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Device" Binding="{Binding DeviceText}" Width="70" IsReadOnly="True" />
+                    <DataGridTextColumn Header="ObjectId" Binding="{Binding ObjectIdText}" Width="80" IsReadOnly="True" />
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="220" IsReadOnly="True" />
+                    <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="100" IsReadOnly="True" />
+                    <DataGridTextColumn Header="Time" Binding="{Binding Time}" Width="80" IsReadOnly="True" />
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="80" IsReadOnly="True" />
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="120" IsReadOnly="True" />
+                    <DataGridTemplateColumn Header="" Width="14" IsReadOnly="True">
+                      <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                          <Border Background="{Binding GraphBrush}" Margin="1" />
+                        </DataTemplate>
+                      </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                  </DataGrid.Columns>
+                </DataGrid>
+                <DataGrid x:Name="TrendReviewGrid" IsVisible="False" AutoGenerateColumns="False" IsReadOnly="False" CanUserResizeColumns="True" CanUserReorderColumns="True" GridLinesVisibility="All" SelectionMode="Extended" Background="Transparent" DragDrop.AllowDrop="True">
+                  <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Show" Width="60">
+                      <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                          <CheckBox IsChecked="{Binding Show, Mode=TwoWay}" HorizontalAlignment="Center" MinWidth="0" Padding="0" />
+                        </DataTemplate>
+                      </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Device" Binding="{Binding DeviceText}" Width="70" IsReadOnly="True" />
+                    <DataGridTextColumn Header="ObjectId" Binding="{Binding ObjectIdText}" Width="80" IsReadOnly="True" />
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="285" IsReadOnly="True" />
+                    <DataGridTextColumn Header="Records" Binding="{Binding Records}" Width="60" IsReadOnly="True" />
+                    <DataGridTextColumn Header="Visible Records" Binding="{Binding VisibleRecords}" Width="88" IsReadOnly="True" />
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="160" IsReadOnly="True" />
+                    <DataGridTemplateColumn Header="" Width="14" IsReadOnly="True">
+                      <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                          <Border Background="{Binding GraphBrush}" Margin="1" />
+                        </DataTemplate>
+                      </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                  </DataGrid.Columns>
+                </DataGrid>
+              </Grid>
+              <GridSplitter Grid.Row="1" ResizeDirection="Rows" />
+              <Grid Grid.Row="2" RowDefinitions="Auto,*">
+                <WrapPanel Grid.Row="0" x:Name="PlotToolbar" Margin="2" ItemSpacing="4">
+                  <Button x:Name="BtnExport" Content="Export" Click="OnPlotExport" ToolTip.Tip="Export the subscription setup to a file (can be dropped back into Yabe)" />
+                  <Button x:Name="BtnPlay" Content="▶" Click="OnPlotPlay" ToolTip.Tip="Run" />
+                  <Button x:Name="BtnPause" Content="⏸" Click="OnPlotPause" ToolTip.Tip="Pause" />
+                  <Button x:Name="BtnLive" Content="Live" Click="OnPlotLive" />
+                  <Button x:Name="BtnHistorical" Content="Historical" Click="OnPlotHistorical" />
+                  <Button x:Name="BtnRefreshTrend" Content="Refresh" Click="OnRefreshTrendReview" IsEnabled="False" />
+                  <Button x:Name="BtnClearPlot" Content="Clear" Click="OnPlotClear" />
+                  <CheckBox x:Name="AlwaysScroll" Content="Always Scroll" IsChecked="True" />
+                  <RadioButton x:Name="CovOpn" Content="COV" GroupName="mode" />
+                  <RadioButton x:Name="PollOpn" Content="Poll (ms)" GroupName="mode" IsChecked="True" />
+                  <NumericUpDown x:Name="PollRate" Minimum="100" Maximum="120000" Increment="100" Value="1000" FormatString="0" Width="130" />
+                </WrapPanel>
+                <Border Grid.Row="1" x:Name="PlotHost" BorderThickness="1" BorderBrush="#40808080" DragDrop.AllowDrop="True">
+                  <Grid>
+                    <plot:PlotControl x:Name="CovGraph" />
+                    <plot:PlotControl x:Name="TrendReviewGraph" IsVisible="False" />
+                    <TextBlock x:Name="DropHint2" Text="... or here to subscribe and plot" Foreground="Gray" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" />
+                  </Grid>
+                </Border>
+              </Grid>
+            </Grid>
+          </TabItem>
+        </TabControl>
+
+        <GridSplitter Grid.Column="1" ResizeDirection="Columns" />
+
+        <Grid Grid.Column="2" RowDefinitions="Auto,Auto,*">
+          <DockPanel Grid.Row="0">
+            <Button DockPanel.Dock="Right" Content="⟳" Margin="2" Padding="6,0" Click="OnRefreshProperties" ToolTip.Tip="Refresh properties" />
+            <TextBlock x:Name="LblProperties" Text="Properties" Margin="4,2" FontWeight="SemiBold" VerticalAlignment="Center" />
+          </DockPanel>
+          <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="4" Margin="2" x:Name="AckPanel" IsVisible="False">
+            <Button Content="Ack Normal" x:Name="AckNormal" Click="OnAckNormal" />
+            <Button Content="Ack Fault" x:Name="AckFault" Click="OnAckFault" />
+            <Button Content="Ack Offnormal" x:Name="AckOffnormal" Click="OnAckOffnormal" />
+          </StackPanel>
+          <pp:PropertyTree Grid.Row="2" x:Name="PropertyTreeView" />
+        </Grid>
+      </Grid>
+    </Grid>
+  </DockPanel>
+</Window>

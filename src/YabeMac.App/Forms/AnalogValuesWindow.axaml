@@ -1,0 +1,21 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="YabeMac.AnalogValuesWindow"
+        Title="List of Analog Values" Width="900" Height="500" WindowStartupLocation="CenterOwner">
+  <DockPanel Margin="8">
+    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="12" Margin="0,0,0,6">
+      <TextBlock x:Name="Devicename" Text="label1" VerticalAlignment="Center" FontWeight="SemiBold" />
+      <Button x:Name="btnExport" Content="Export csv" Click="OnExportCsv" />
+    </StackPanel>
+    <DataGrid x:Name="Grid" AutoGenerateColumns="False" IsReadOnly="True" GridLinesVisibility="All">
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Object Name" Binding="{Binding Name}" />
+        <DataGridTextColumn Header="Object Type" Binding="{Binding Type}" />
+        <DataGridTextColumn Header="Instance Number" Binding="{Binding Instance}" />
+        <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*" />
+        <DataGridTextColumn Header="Present Value" Binding="{Binding PresentValue}" />
+        <DataGridTextColumn Header="Relinquish Default" Binding="{Binding RelinquishDefault}" />
+      </DataGrid.Columns>
+    </DataGrid>
+  </DockPanel>
+</Window>

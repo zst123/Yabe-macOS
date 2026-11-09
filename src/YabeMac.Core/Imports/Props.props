@@ -1,0 +1,6 @@
+<Project>
+  <!-- Properties panel: data files the original YABE reads at runtime (copied next to the binaries). -->
+  <ItemGroup>
+    <None Include="$(YabeSvnDir)Common Files/VendorPropertyMapping.csv" Link="VendorPropertyMapping.csv" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

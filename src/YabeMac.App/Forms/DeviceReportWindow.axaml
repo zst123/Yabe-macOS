@@ -1,0 +1,20 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="YabeMac.DeviceReportWindow"
+        Title="Yabe - Report of All Devices" Width="760" Height="480" WindowStartupLocation="CenterOwner">
+  <DockPanel Margin="8">
+    <WrapPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,8,0,0">
+      <Border BorderThickness="1" BorderBrush="Gray" Padding="6" CornerRadius="3">
+        <StackPanel Orientation="Horizontal" Spacing="10">
+          <TextBlock Text="Sort Method" VerticalAlignment="Center" />
+          <RadioButton x:Name="radSortAddBytes" GroupName="sort" Content="Address Bytes" IsChecked="True" IsCheckedChanged="OnSortChanged" />
+          <RadioButton x:Name="radSortAddBytesType" GroupName="sort" Content="Type then Address Bytes" IsCheckedChanged="OnSortChanged" />
+          <RadioButton x:Name="radSortAlphabetical" GroupName="sort" Content="Alphabetical" IsCheckedChanged="OnSortChanged" />
+          <RadioButton x:Name="radSortInstance" GroupName="sort" Content="Instance" IsCheckedChanged="OnSortChanged" />
+        </StackPanel>
+      </Border>
+      <Button x:Name="btnCopy" Content="Copy for Excel" Click="OnCopy" VerticalAlignment="Center" Margin="12,0,0,0" />
+    </WrapPanel>
+    <TextBox x:Name="txtReport" IsReadOnly="True" AcceptsReturn="True" FontFamily="Menlo,Consolas,monospace" />
+  </DockPanel>
+</Window>

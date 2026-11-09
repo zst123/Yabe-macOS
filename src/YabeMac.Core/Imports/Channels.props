@@ -1,0 +1,16 @@
+<Project>
+  <ItemGroup>
+    <Compile Include="$(YabeSvnDir)BacnetTransportSerial.cs" Link="Yabe/BacnetTransportSerial.cs" />
+    <Compile Include="$(YabeSvnDir)BacnetTransportEthernet.cs" Link="Yabe/BacnetTransportEthernet.cs" />
+    <Compile Include="$(YabeSvnDir)BACnetTransportSecureConnect.cs" Link="Yabe/BACnetTransportSecureConnect.cs" />
+    <Compile Include="$(YabeSvnDir)Utils.cs\PrivateKeyReader.cs" Link="Yabe/PrivateKeyReader.cs" />
+    <Compile Include="$(YabeSvnDir)..\DemoServer\DeviceStorage.cs" Link="Yabe/DeviceStorage.cs" />
+    <Compile Include="$(YabeSvnDir)Utils.cs\YabeDevice.cs" Link="Yabe/YabeDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)..\Shims\ChannelsShims.cs" Link="Shims/ChannelsShims.cs" />
+    <PackageReference Include="System.IO.Ports" Version="8.0.0" />
+    <Reference Include="SharpPcap"><HintPath>$(YabeSvnDir)Resources\EmbeddedDll\SharpPcap.dll</HintPath></Reference>
+    <Reference Include="PacketDotNet"><HintPath>$(YabeSvnDir)Resources\EmbeddedDll\PacketDotNet.dll</HintPath></Reference>
+    <Reference Include="websocket-sharp"><HintPath>$(YabeSvnDir)Resources\EmbeddedDll\websocket-sharp.dll</HintPath></Reference>
+    <EmbeddedResource Include="$(YabeSvnDir)Common Files\YabeDeviceDescriptor.xml" LogicalName="Yabe.Common_Files.YabeDeviceDescriptor.xml" Link="Yabe/YabeDeviceDescriptor.xml" />
+  </ItemGroup>
+</Project>

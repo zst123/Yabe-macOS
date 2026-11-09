@@ -1,0 +1,21 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="YabeMac.SettingsDialog"
+        Title="Settings"
+        Width="520" Height="560" MinWidth="400" MinHeight="300"
+        WindowStartupLocation="CenterOwner">
+  <Grid Margin="12" RowDefinitions="*,Auto,Auto">
+    <Border BorderBrush="#60808080" BorderThickness="1">
+      <ScrollViewer>
+        <StackPanel x:Name="Rows" />
+      </ScrollViewer>
+    </Border>
+    <Border Grid.Row="1" BorderBrush="#60808080" BorderThickness="1" Margin="0,6,0,6" Padding="6" MinHeight="70">
+      <StackPanel>
+        <TextBlock x:Name="HelpTitle" FontWeight="SemiBold" />
+        <TextBlock x:Name="HelpText" TextWrapping="Wrap" />
+      </StackPanel>
+    </Border>
+    <TextBlock Grid.Row="2" Text="Some settings may require a restart of the program" />
+  </Grid>
+</Window>

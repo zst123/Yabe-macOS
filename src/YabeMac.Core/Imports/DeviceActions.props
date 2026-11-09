@@ -1,0 +1,17 @@
+<Project>
+  <!-- Original Utils.cs/FileTransfers.cs (AtomicReadFile/WriteFile helpers). It is class-internal and reads
+       Properties.Settings, so a patched copy is generated into obj/ (the SVN tree stays pristine). -->
+  <Target Name="PatchYabeFileTransfers" BeforeTargets="BeforeCompile;CoreCompile">
+    <PropertyGroup>
+      <FtPatchDir>$(IntermediateOutputPath)patched/</FtPatchDir>
+      <FtText>$([System.IO.File]::ReadAllText('$(YabeSvnDir)Utils.cs/FileTransfers.cs'))</FtText>
+      <FtText>$(FtText.Replace('Properties.Settings.Default.Segments_ProposedWindowSize', 'FileTransferSettings.SegmentsProposedWindowSize'))</FtText>
+      <FtText>$(FtText.Replace('    class FileTransfers', '    public class FileTransfers'))</FtText>
+    </PropertyGroup>
+    <MakeDir Directories="$(FtPatchDir)" />
+    <WriteLinesToFile File="$(FtPatchDir)FileTransfers.cs" Overwrite="true" Lines="$(FtText)" />
+    <ItemGroup>
+      <Compile Include="$(FtPatchDir)FileTransfers.cs" />
+    </ItemGroup>
+  </Target>
+</Project>

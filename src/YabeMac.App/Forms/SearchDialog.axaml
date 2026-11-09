@@ -1,0 +1,102 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="YabeMac.SearchDialog"
+        Title="BACnet Communication Channel"
+        Width="920" SizeToContent="Height" CanResize="False"
+        WindowStartupLocation="CenterOwner">
+  <Window.Styles>
+    <Style Selector="NumericUpDown"><Setter Property="MinHeight" Value="26"/><Setter Property="Height" Value="28"/><Setter Property="FormatString" Value="0"/><Setter Property="VerticalAlignment" Value="Center"/></Style>
+    <Style Selector="TextBox"><Setter Property="MinHeight" Value="26"/><Setter Property="VerticalAlignment" Value="Center"/></Style>
+    <Style Selector="AutoCompleteBox"><Setter Property="MinHeight" Value="26"/><Setter Property="VerticalAlignment" Value="Center"/></Style>
+    <Style Selector="Button"><Setter Property="MinHeight" Value="26"/><Setter Property="MinWidth" Value="64"/><Setter Property="HorizontalContentAlignment" Value="Center"/></Style>
+    <Style Selector="Border.grp"><Setter Property="BorderBrush" Value="#60808080"/><Setter Property="BorderThickness" Value="1"/><Setter Property="CornerRadius" Value="3"/><Setter Property="Padding" Value="10,6,10,10"/><Setter Property="Margin" Value="0,0,0,10"/></Style>
+    <Style Selector="TextBlock.gt"><Setter Property="FontWeight" Value="SemiBold"/><Setter Property="Margin" Value="0,0,0,6"/></Style>
+    <Style Selector="TextBlock.lbl"><Setter Property="VerticalAlignment" Value="Center"/></Style>
+    <Style Selector="WrapPanel > :is(Control)"><Setter Property="Margin" Value="0,2,8,2"/></Style>
+  </Window.Styles>
+  <Grid Margin="12" RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,12,*">
+    <!-- General -->
+    <Border Classes="grp" Grid.Row="0" Grid.ColumnSpan="3">
+      <StackPanel>
+        <TextBlock Classes="gt" Text="General" />
+        <WrapPanel Orientation="Horizontal">
+          <TextBlock Classes="lbl" Text="Retries" />
+          <NumericUpDown x:Name="RetriesValue" Width="120" Minimum="0" Maximum="100" />
+          <TextBlock Classes="lbl" Text="Timeout" />
+          <NumericUpDown x:Name="TimeoutValue" Width="130" Minimum="100" Maximum="60000" />
+          <TextBlock Classes="lbl" Text="WhoIs limit low" />
+          <TextBox x:Name="WhoLimitLow" Width="70" />
+          <TextBlock Classes="lbl" Text="high" />
+          <TextBox x:Name="WhoLimitHigh" Width="70" />
+          <CheckBox x:Name="ChkSendWhois" Content="Send WhoIs" IsChecked="True" />
+        </WrapPanel>
+      </StackPanel>
+    </Border>
+
+    <!-- left column -->
+    <StackPanel Grid.Row="1" Grid.Column="0">
+      <Border Classes="grp">
+        <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,*,Auto">
+          <TextBlock Classes="gt" Grid.ColumnSpan="3" Text="BACnet/IP V4 &amp; V6 over Udp" />
+          <TextBlock Classes="lbl" Grid.Row="1" Text="Port" Margin="0,0,10,6" />
+          <NumericUpDown x:Name="PortValue" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Width="140" Minimum="0" Maximum="65535" Margin="0,0,0,6" />
+          <Button x:Name="AddUdpButton" Grid.Row="1" Grid.Column="2" Content="Start" Click="OnAddUdp" />
+          <TextBlock Classes="lbl" Grid.Row="2" Text="Local endpoint" Margin="0,0,10,0" />
+          <AutoCompleteBox x:Name="LocalUdpEndpointsCombo" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" MinimumPrefixLength="0" FilterMode="None" />
+        </Grid>
+      </Border>
+      <Border Classes="grp">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,Auto,*,Auto">
+          <TextBlock Classes="gt" Grid.ColumnSpan="4" Text="BACnet/Secure Connect over Websocket" />
+          <TextBlock Classes="lbl" Grid.Row="1" Grid.ColumnSpan="4" Text="Configuration parameters File :" Margin="0,0,0,4" />
+          <TextBox x:Name="SCConfig" Grid.Row="2" Grid.ColumnSpan="4" Margin="0,0,0,6" />
+          <Button Grid.Row="3" Grid.Column="0" Content="Select" Click="OnSelectSC" />
+          <Button Grid.Row="3" Grid.Column="1" Content="Edit" Click="OnEditSC" Margin="6,0,0,0" />
+          <Button x:Name="AddScButton" Grid.Row="3" Grid.Column="3" Content="Start" Click="OnAddSc" />
+        </Grid>
+      </Border>
+      <Border Classes="grp">
+        <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,Auto">
+          <TextBlock Classes="gt" Grid.ColumnSpan="2" Text="BACnet/Ethernet" />
+          <TextBlock Classes="lbl" Grid.Row="1" Text="Interface" Margin="0,0,0,4" />
+          <Button x:Name="AddEthernetButton" Grid.Row="1" Grid.Column="1" Content="Start" IsEnabled="False" Click="OnAddEthernet" />
+          <AutoCompleteBox x:Name="EthernetInterfaceCombo" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" MinimumPrefixLength="0" FilterMode="None" IsEnabled="False" Text="Wait ..." />
+        </Grid>
+      </Border>
+    </StackPanel>
+
+    <!-- right column -->
+    <StackPanel Grid.Row="1" Grid.Column="2">
+      <Border Classes="grp">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*,Auto">
+          <TextBlock Classes="gt" Grid.ColumnSpan="3" Text="BACnet/MSTP over serial" />
+          <TextBlock Classes="lbl" Grid.Row="1" Text="Port" Margin="0,0,10,6" />
+          <AutoCompleteBox x:Name="SerialPortCombo" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" MinimumPrefixLength="0" FilterMode="None" Margin="0,0,8,6" />
+          <Button x:Name="AddSerialButton" Grid.Row="1" Grid.Column="2" Content="Start" Click="OnAddSerial" />
+          <TextBlock Classes="lbl" Grid.Row="2" Text="Baud" Margin="0,0,10,6" />
+          <NumericUpDown x:Name="BaudValue" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Width="130" Minimum="1" Maximum="1215752191" Margin="0,0,0,6" />
+          <TextBlock Classes="lbl" Grid.Row="3" Text="Source Address" Margin="0,0,10,6" />
+          <NumericUpDown x:Name="SourceAddressValue" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Width="110" Minimum="-1" Maximum="127" Margin="0,0,0,6" />
+          <TextBlock Classes="lbl" Grid.Row="4" Text="Max Master" Margin="0,0,10,6" />
+          <NumericUpDown x:Name="MaxMasterValue" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Width="110" Minimum="0" Maximum="127" Margin="0,0,0,6" />
+          <TextBlock Classes="lbl" Grid.Row="5" Text="Max Frames" Margin="0,0,10,0" />
+          <NumericUpDown x:Name="MaxInfoFramesValue" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" Width="110" Minimum="1" Maximum="255" />
+        </Grid>
+      </Border>
+      <Border Classes="grp">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*,Auto">
+          <TextBlock Classes="gt" Grid.ColumnSpan="3" Text="BACnet/PTP over serial" />
+          <TextBlock Classes="lbl" Grid.Row="1" Text="Port" Margin="0,0,10,6" />
+          <AutoCompleteBox x:Name="SerialPtpPortCombo" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" MinimumPrefixLength="0" FilterMode="None" Margin="0,0,8,6" />
+          <Button x:Name="AddPtpSerialButton" Grid.Row="1" Grid.Column="2" Content="Start" Click="OnAddPtp" />
+          <TextBlock Classes="lbl" Grid.Row="2" Text="Baud" Margin="0,0,10,6" />
+          <NumericUpDown x:Name="PtpBaudRate" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Width="130" Minimum="1" Maximum="1215752191" Margin="0,0,0,6" />
+          <TextBlock Classes="lbl" Grid.Row="3" Text="Password" Margin="0,0,10,0" />
+          <TextBox x:Name="PasswordText" Grid.Row="3" Grid.Column="1" PasswordChar="*" />
+        </Grid>
+      </Border>
+    </StackPanel>
+
+    <Button Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" Content="Cancel" Click="OnCancel" />
+  </Grid>
+</Window>

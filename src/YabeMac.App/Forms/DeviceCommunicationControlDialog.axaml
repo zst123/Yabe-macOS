@@ -1,0 +1,49 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="YabeMac.DeviceCommunicationControlDialog"
+        Title="Device Communication Control" Width="300" SizeToContent="Height" CanResize="False"
+        WindowStartupLocation="CenterOwner">
+  <!-- Same groups / order / labels / defaults as Forms/DeviceCommunicationControlDialog.Designer.cs:
+       Action (Reinitialize|Communication), Reinitialize (State), Communication (Disable, Duration), Optional (Password), Cancel / OK -->
+  <StackPanel Margin="12" Spacing="8">
+    <Border BorderBrush="#60808080" BorderThickness="1" CornerRadius="3" Padding="10,6,10,8">
+      <StackPanel Spacing="2">
+        <TextBlock Text="Action" FontWeight="SemiBold" />
+        <RadioButton x:Name="m_reinitializeRadio" Content="Reinitialize" GroupName="act" IsChecked="True" TabIndex="0" IsCheckedChanged="reinitializeRadio_CheckedChanged" />
+        <RadioButton x:Name="m_communicationRadio" Content="Communication" GroupName="act" TabIndex="1" IsCheckedChanged="reinitializeRadio_CheckedChanged" />
+      </StackPanel>
+    </Border>
+    <Border BorderBrush="#60808080" BorderThickness="1" CornerRadius="3" Padding="10,6,10,8">
+      <StackPanel x:Name="m_reinitializeGroup" Spacing="4">
+        <TextBlock Text="Reinitialize" FontWeight="SemiBold" />
+        <Grid ColumnDefinitions="90,*">
+          <TextBlock Text="State" VerticalAlignment="Center" />
+          <ComboBox Grid.Column="1" x:Name="m_StateCombo" HorizontalAlignment="Stretch" TabIndex="0" />
+        </Grid>
+      </StackPanel>
+    </Border>
+    <Border BorderBrush="#60808080" BorderThickness="1" CornerRadius="3" Padding="10,6,10,8">
+      <StackPanel x:Name="m_communicationGroup" Spacing="4" IsEnabled="False">
+        <TextBlock Text="Communication" FontWeight="SemiBold" />
+        <CheckBox x:Name="m_disableCheck" Content="Disable" IsChecked="True" Margin="90,0,0,0" TabIndex="4" />
+        <Grid ColumnDefinitions="130,*">
+          <TextBlock Text="Duration (minutes)" VerticalAlignment="Center" />
+          <NumericUpDown Grid.Column="1" x:Name="m_durationValue" Minimum="0" Maximum="65535" Value="0" FormatString="0" Increment="1" TabIndex="5" />
+        </Grid>
+      </StackPanel>
+    </Border>
+    <Border BorderBrush="#60808080" BorderThickness="1" CornerRadius="3" Padding="10,6,10,8">
+      <StackPanel Spacing="4">
+        <TextBlock Text="Optional" FontWeight="SemiBold" />
+        <Grid ColumnDefinitions="90,*">
+          <TextBlock Text="Password" VerticalAlignment="Center" />
+          <TextBox Grid.Column="1" x:Name="m_passwordText" PasswordChar="*" TabIndex="8" />
+        </Grid>
+      </StackPanel>
+    </Border>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="6">
+      <Button x:Name="m_CancelButton" Content="Cancel" MinWidth="70" IsCancel="True" HorizontalContentAlignment="Center" TabIndex="3" Click="OnCancel" />
+      <Button x:Name="m_OKButton" Content="OK" MinWidth="70" IsDefault="True" HorizontalContentAlignment="Center" TabIndex="2" Click="OnOk" />
+    </StackPanel>
+  </StackPanel>
+</Window>

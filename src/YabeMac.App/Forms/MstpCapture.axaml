@@ -1,0 +1,68 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="YabeMac.MstpCapture"
+        Title="Wireshark Mstp.BacnetCapture"
+        Width="440" Height="640" MinWidth="440" MaxWidth="440" MinHeight="400"
+        FontSize="12" CanResize="True" WindowStartupLocation="CenterOwner">
+  <Grid Margin="12,8,12,12" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,*">
+    <!-- label1 + textBox1 -->
+    <Grid ColumnDefinitions="Auto,8,*" Margin="0,0,0,10">
+      <TextBlock x:Name="label1" Text="Wireshark must listen the following pipeline :" VerticalAlignment="Center" />
+      <TextBox x:Name="textBox1" Grid.Column="2" IsReadOnly="True" TextAlignment="Center" MinHeight="26" Padding="4,3" />
+    </Grid>
+    <!-- label7 -->
+    <TextBlock x:Name="label7" Grid.Row="1" Margin="0,0,0,12" TextWrapping="Wrap"
+               Text="... start it with the command  : wireshark -ni /tmp/bacnet" />
+    <!-- linkLabel1 -->
+    <Button x:Name="linkLabel1" Grid.Row="2" Content="Start Wireshark with immediate capture" IsEnabled="False"
+            Background="Transparent" BorderThickness="0" Padding="0" Margin="0,0,0,12" Foreground="#3B8EEA"
+            Click="OnLinkClicked" Cursor="Hand">
+      <Button.Styles>
+        <Style Selector="Button:disabled /template/ ContentPresenter"><Setter Property="Foreground" Value="#80808080" /></Style>
+        <Style Selector="Button /template/ ContentPresenter"><Setter Property="TextBlock.TextDecorations" Value="Underline" /></Style>
+      </Button.Styles>
+    </Button>
+    <!-- label6 (shown instead of the port selection when launched from the main window) -->
+    <TextBlock x:Name="label6" Grid.Row="3" IsVisible="False" HorizontalAlignment="Center" Margin="0,0,0,8"
+               Text="This tool can be used without Yabe (but Port cannot be shared)" />
+    <!-- label2 comboPort label3 comboSpeed -->
+    <Grid x:Name="portRow" Grid.Row="4" ColumnDefinitions="Auto,8,*,16,Auto,8,92" Margin="0,0,0,8">
+      <TextBlock x:Name="label2" Text="Serial Port :" VerticalAlignment="Center" />
+      <Grid x:Name="comboPortBox" Grid.Column="2" ColumnDefinitions="*,Auto">
+        <TextBox x:Name="comboPort" MinHeight="26" Padding="6,3" />
+        <Button x:Name="comboPortBtn" Grid.Column="1" Content="&#x25BE;" Padding="6,0" Click="OnDropPort" VerticalAlignment="Stretch" />
+      </Grid>
+      <TextBlock x:Name="label3" Grid.Column="4" Text="Speed :" VerticalAlignment="Center" />
+      <Grid x:Name="comboSpeedBox" Grid.Column="6" ColumnDefinitions="*,Auto">
+        <TextBox x:Name="comboSpeed" MinHeight="26" Padding="6,3" Text="38400" />
+        <Button x:Name="comboSpeedBtn" Grid.Column="1" Content="&#x25BE;" Padding="6,0" Click="OnDropSpeed" VerticalAlignment="Stretch" />
+      </Grid>
+    </Grid>
+    <!-- buttonGo -->
+    <Button x:Name="buttonGo" Grid.Row="5" Content="Go" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="0,0,0,10" Click="OnGo" />
+    <!-- label4 / label5 -->
+    <Grid Grid.Row="6" ColumnDefinitions="124,6,*" Margin="0,0,0,4">
+      <TextBlock x:Name="label4" Text="Suppress filters" HorizontalAlignment="Center" />
+      <TextBlock x:Name="label5" Grid.Column="2" Text="Sent's messages statistics" HorizontalAlignment="Center" />
+    </Grid>
+    <!-- checksbox + treeView -->
+    <Grid Grid.Row="7" ColumnDefinitions="124,6,*">
+      <Border x:Name="checksbox" BorderBrush="#80808080" BorderThickness="1" Background="{DynamicResource SystemControlBackgroundAltHighBrush}">
+        <Grid RowDefinitions="*,*,*,*" Margin="6,0">
+          <CheckBox x:Name="checkToken" Content="Token" VerticalAlignment="Center" IsCheckedChanged="OnFilterChanged" />
+          <CheckBox x:Name="checkMaster" Grid.Row="1" Content="Master Polling" VerticalAlignment="Center" IsCheckedChanged="OnFilterChanged" />
+          <CheckBox x:Name="checkTest" Grid.Row="2" Content="Test" VerticalAlignment="Center" IsCheckedChanged="OnFilterChanged" />
+          <CheckBox x:Name="checkData" Grid.Row="3" Content="Data" VerticalAlignment="Center" IsCheckedChanged="OnFilterChanged" />
+        </Grid>
+      </Border>
+      <Border Grid.Column="2" BorderBrush="#80808080" BorderThickness="1">
+        <TreeView x:Name="treeView">
+          <TreeView.Styles>
+            <Style Selector="TreeViewItem"><Setter Property="MinHeight" Value="22" /></Style>
+            <Style Selector="TreeViewItem /template/ Border#PART_LayoutRoot"><Setter Property="MinHeight" Value="22" /></Style>
+          </TreeView.Styles>
+        </TreeView>
+      </Border>
+    </Grid>
+  </Grid>
+</Window>

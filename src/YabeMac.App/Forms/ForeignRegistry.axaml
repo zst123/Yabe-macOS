@@ -1,0 +1,22 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="YabeMac.ForeignRegistry"
+        Title="ForeignRegistry"
+        SizeToContent="WidthAndHeight" CanResize="False"
+        WindowStartupLocation="CenterOwner">
+  <StackPanel Margin="16" Spacing="8" Width="260">
+    <TextBlock Text="Remote BBMD IPv4, IPv6 Endpoint" />
+    <Grid ColumnDefinitions="*,6,70">
+      <TextBox x:Name="BBMD_IP" />
+      <TextBox x:Name="BBMD_Port" Grid.Column="2" Text="47808" />
+    </Grid>
+    <StackPanel Orientation="Horizontal" Spacing="6">
+      <TextBlock Text="Registration Time:" VerticalAlignment="Center" />
+      <TextBox x:Name="TTL_Input" Width="60" Text="30" />
+      <TextBlock Text="minutes" VerticalAlignment="Center" />
+    </StackPanel>
+    <Button x:Name="SendFDR" Content="Register" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Click="OnSendFDR" />
+    <Button x:Name="SendWhois" Content="Send Remote Whois" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsEnabled="False" Click="OnSendWhois" />
+    <Button Content="Cancel" HorizontalAlignment="Right" MinWidth="72" HorizontalContentAlignment="Center" Click="OnCancel" />
+  </StackPanel>
+</Window>

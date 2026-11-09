@@ -1,0 +1,60 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="YabeMac.SCEditor"
+        Title="BACnet/SC Channel Configuration"
+        Width="560" SizeToContent="Height" CanResize="False"
+        WindowStartupLocation="CenterOwner">
+  <Window.Styles>
+    <Style Selector="TextBox"><Setter Property="MinHeight" Value="26"/><Setter Property="VerticalAlignment" Value="Center"/></Style>
+    <Style Selector="Button"><Setter Property="MinHeight" Value="26"/><Setter Property="HorizontalContentAlignment" Value="Center"/></Style>
+    <Style Selector="TextBlock.lbl"><Setter Property="VerticalAlignment" Value="Center"/></Style>
+  </Window.Styles>
+  <StackPanel Margin="12" Spacing="8">
+    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" >
+      <TextBlock Classes="lbl" Text="Yabe UUID" Margin="0,0,12,8" Width="140" />
+      <TextBox x:Name="UUID" Grid.Column="1" Margin="0,0,0,8" />
+      <TextBlock Classes="lbl" Grid.Row="1" Text="Optional VMAC (6 Hexa Bytes)" Margin="0,0,12,8" />
+      <TextBox x:Name="VMAC" Grid.Row="1" Grid.Column="1" MaxLength="12" Margin="0,0,0,8" />
+      <TextBlock x:Name="LblUri" Classes="lbl" Grid.Row="2" Text="Hub URI" />
+      <TextBox x:Name="HubURI" Grid.Row="2" Grid.Column="1" />
+    </Grid>
+    <Grid ColumnDefinitions="Auto,*,Auto">
+      <CheckBox x:Name="ChkDirectConnect" Content="Direct Connect" IsCheckedChanged="OnDirectConnectChanged" />
+      <Button Grid.Column="2" Content="Try Get X509" Click="OnGetRemoteCertificate" />
+    </Grid>
+    <Border BorderBrush="#60808080" BorderThickness="1" CornerRadius="3" Padding="8">
+      <StackPanel Spacing="6">
+        <TextBlock Text="Security (Required only with wss://)" FontWeight="SemiBold" />
+        <Grid ColumnDefinitions="*,Auto,Auto">
+          <TextBlock TextWrapping="Wrap" VerticalAlignment="Bottom" Text="Yabe Certificate File, with private key (either .p12/pfx with private key, or .crt/.cer/.der/.pem and .key file pair). This should be signed by device's CA." />
+          <Button Grid.Column="1" Content="Select" Click="OnSelCert" Tag="yabe" Margin="6,0,0,0" VerticalAlignment="Bottom" />
+          <Button Grid.Column="2" Content="View" Click="OnViewCert" Tag="yabe" Margin="6,0,0,0" VerticalAlignment="Bottom" />
+        </Grid>
+        <TextBox x:Name="YabeCert" />
+        <Grid ColumnDefinitions="Auto,*">
+          <TextBlock Classes="lbl" Text="Certificate password" Margin="0,0,10,0" />
+          <TextBox x:Name="YabeCertPassword" Grid.Column="1" PasswordChar="*" />
+        </Grid>
+        <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+          <TextBlock x:Name="LblRemoteCertificate" TextWrapping="Wrap" VerticalAlignment="Bottom" Text="HUB and/or CA Certificate(s) File (.crt/.cer/.der/.pem/.pfx/.p12)." />
+          <Button Grid.Column="1" Content="Clear" Click="OnClear" Margin="6,0,0,0" VerticalAlignment="Bottom" />
+          <Button Grid.Column="2" Content="Select" Click="OnSelCert" Tag="hub" Margin="6,0,0,0" VerticalAlignment="Bottom" />
+          <Button Grid.Column="3" Content="View" Click="OnViewCert" Tag="hub" Margin="6,0,0,0" VerticalAlignment="Bottom" />
+        </Grid>
+        <TextBox x:Name="HubCert" />
+        <Grid ColumnDefinitions="*,Auto">
+          <CheckBox x:Name="ChkVerifyHubCert" Content="Verify Remote Certificate" />
+          <Button Grid.Column="1" Content="Certificate Help..." Click="OnCertInformation" />
+        </Grid>
+      </StackPanel>
+    </Border>
+    <Grid ColumnDefinitions="Auto,*">
+      <TextBlock Classes="lbl" Text="Unciphered port (for Wireshark capture):" Margin="0,0,8,0" />
+      <NumericUpDown x:Name="CapturePort" Grid.Column="1" Minimum="-1" Maximum="65535" FormatString="0" Value="-1" />
+    </Grid>
+    <Grid ColumnDefinitions="Auto,*">
+      <Button Content="Cancel" MinWidth="88" Click="OnCancel" />
+      <Button Grid.Column="1" Content="Save" Click="OnSave" HorizontalAlignment="Stretch" Margin="12,0,0,0" />
+    </Grid>
+  </StackPanel>
+</Window>

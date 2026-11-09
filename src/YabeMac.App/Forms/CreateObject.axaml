@@ -1,0 +1,19 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="YabeMac.CreateObject"
+        Title="Create object" Width="364" Height="140" MinWidth="364" MinHeight="140" MaxWidth="805" MaxHeight="400"
+        CanMaximize="False" WindowStartupLocation="CenterOwner">
+  <!-- Layout of the original Forms/CreateObject.Designer.cs (type combo + instance numeric, name label + textbox, Create / Cancel) -->
+  <Grid Margin="18,18,16,10" RowDefinitions="Auto,Auto,*,Auto" ColumnDefinitions="Auto,*,Auto">
+    <!-- Editable drop-down combo of the original (WinForms ComboBox DropDown style): AutoCompleteBox + drop-down button -->
+    <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Width="227" HorizontalAlignment="Left" ColumnDefinitions="*,Auto">
+      <AutoCompleteBox x:Name="ObjectTypeCombo" MinimumPrefixLength="0" FilterMode="Contains" TabIndex="0" />
+      <Button Grid.Column="1" Content="&#x25BE;" Padding="6,0" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="TypeDropDown_Click" Focusable="False" />
+    </Grid>
+    <NumericUpDown Grid.Row="0" Grid.Column="2" x:Name="ObjectInstanceNumeric" Minimum="0" Maximum="4194303" Value="0" FormatString="0" Increment="1" Width="110" Margin="11,0,0,0" TabIndex="10" />
+    <TextBlock Grid.Row="1" Grid.Column="0" x:Name="ObjectNameLabel" Text="Object name:" Margin="0,18,0,0" VerticalAlignment="Center" />
+    <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" x:Name="ObjectNameTextBox" Margin="14,18,0,0" TabIndex="30" />
+    <Button Grid.Row="3" Grid.Column="0" x:Name="CreateButton" Content="Create" MinWidth="75" HorizontalContentAlignment="Center" IsDefault="True" Click="CreateButton_Click" TabIndex="40" />
+    <Button Grid.Row="3" Grid.Column="2" x:Name="CancelCommandButton" Content="Cancel" MinWidth="75" HorizontalContentAlignment="Center" IsCancel="True" HorizontalAlignment="Right" Click="CancelCommandButton_Click" TabIndex="50" />
+  </Grid>
+</Window>

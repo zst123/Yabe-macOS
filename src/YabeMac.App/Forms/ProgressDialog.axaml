@@ -1,0 +1,12 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="YabeMac.ProgressDialog"
+        Title="ProgressDialog" Width="340" Height="108" CanResize="False" ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner">
+  <!-- Forms/ProgressDialog.Designer.cs: label, progress bar, centred Cancel button -->
+  <StackPanel Margin="12,9" Spacing="6">
+    <TextBlock x:Name="m_Label" Text="Progress" />
+    <ProgressBar x:Name="m_progessbar" Height="23" Minimum="0" Maximum="100" Value="0" />
+    <Button x:Name="m_CancelButton" Content="Cancel" MinWidth="75" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Click="OnCancelClick" />
+  </StackPanel>
+</Window>

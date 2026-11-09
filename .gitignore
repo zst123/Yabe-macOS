@@ -1,0 +1,19 @@
+# Original YABE sources are downloaded by setup.sh (never committed)
+external/
+
+# Build output
+bin/
+obj/
+build/
+*.user
+.vs/
+.idea/
+
+# Python simulator environment and runtime files
+.venv/
+__pycache__/
+tools/sim/sim.log
+tools/sim/sim.pid
+
+# macOS
+.DS_Store

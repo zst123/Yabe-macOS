@@ -1,0 +1,13 @@
+<Project>
+  <!-- Export / plugins / user commands / YabeDevice area -->
+  <ItemGroup>
+    <!-- DeviceStorage (XML device database, used by "Export device database" and by Yabe-as-a-device) -->
+    <!-- Embedded resources the original BACnetDevice / YabeDevice look up by name in the executing assembly -->
+    <EmbeddedResource Include="$(YabeSvnDir)Common Files\ReadSinglePropDescrDefault.xml" LogicalName="Yabe.Common_Files.ReadSinglePropDescrDefault.xml" />
+
+    <!-- Original "Common Files" (+ EDE csv tables) copied next to the executable (flows to YabeMac.App output) -->
+    <Content Include="$(YabeSvnDir)Common Files\**" Link="%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="$(YabeSvnDir)Resources\ObjectTypes.csv" Link="ObjectTypes.csv" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="$(YabeSvnDir)Resources\Units.csv" Link="Units.csv" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,19 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="YabeMac.PluginResultWindow"
+        Title="Plugin" Width="420" Height="440" WindowStartupLocation="CenterOwner">
+  <DockPanel Margin="8">
+    <StackPanel DockPanel.Dock="Top" Spacing="4" Margin="0,0,0,6">
+      <TextBlock x:Name="Devicename" Text="label1" FontWeight="SemiBold" />
+      <TextBlock x:Name="EmptyList" Text="" IsVisible="False" />
+      <ProgressBar x:Name="Busy" IsIndeterminate="True" Height="4" />
+    </StackPanel>
+    <TreeView x:Name="Tree">
+      <TreeView.ItemTemplate>
+        <TreeDataTemplate ItemsSource="{Binding Children}">
+          <TextBlock Text="{Binding Title}" />
+        </TreeDataTemplate>
+      </TreeView.ItemTemplate>
+    </TreeView>
+  </DockPanel>
+</Window>

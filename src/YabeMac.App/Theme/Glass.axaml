@@ -1,0 +1,202 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!--
+    Liquid-Glass-style theme layered over Fluent. Applied only to windows that carry the "glass"
+    class (MainWindow does when AppSettings.UseGlassTheme is on), so dialogs and the classic look
+    are untouched. Surfaces are translucent so the blurred macOS backdrop shows through.
+  -->
+  <Styles.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+          <SolidColorBrush x:Key="GlassWindow" Color="#99EEF0F5" />
+          <SolidColorBrush x:Key="GlassPanel" Color="#CCFFFFFF" />
+          <SolidColorBrush x:Key="GlassPanelStrong" Color="#B3FFFFFF" />
+          <SolidColorBrush x:Key="GlassBorder" Color="#59FFFFFF" />
+          <SolidColorBrush x:Key="GlassEdge" Color="#26000000" />
+          <SolidColorBrush x:Key="GlassSelection" Color="#590A84FF" />
+          <SolidColorBrush x:Key="GlassHover" Color="#2E0A84FF" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+          <SolidColorBrush x:Key="GlassWindow" Color="#F9050608" />
+          <SolidColorBrush x:Key="GlassPanel" Color="#B03B3E45" />
+          <SolidColorBrush x:Key="GlassPanelStrong" Color="#D03B3E45" />
+          <SolidColorBrush x:Key="GlassBorder" Color="#2EFFFFFF" />
+          <SolidColorBrush x:Key="GlassEdge" Color="#33FFFFFF" />
+          <SolidColorBrush x:Key="GlassSelection" Color="#B30A84FF" />
+          <SolidColorBrush x:Key="GlassHover" Color="#40FFFFFF" />
+        </ResourceDictionary>
+      </ResourceDictionary.ThemeDictionaries>
+    </ResourceDictionary>
+  </Styles.Resources>
+
+  <Style Selector="Window.glass">
+    <!-- Background is set in code (MainWindow.Glass.cs): dark grey tint, solid when inactive. -->
+  </Style>
+
+  <!-- Same compact base font in every window (dialogs defaulted to Fluent's 14) -->
+  <Style Selector="Window">
+    <Setter Property="FontSize" Value="12" />
+  </Style>
+
+  <!-- Dense grid rows -->
+  <Style Selector="DataGrid">
+    <Setter Property="RowHeight" Value="22" />
+    <Setter Property="ColumnHeaderHeight" Value="24" />
+  </Style>
+
+  <!-- Dense tree rows, like the original WinForms trees -->
+  <Style Selector="TreeViewItem">
+    <Setter Property="MinHeight" Value="0" />
+    <Setter Property="Padding" Value="0" />
+  </Style>
+  <Style Selector="TreeViewItem /template/ Border#PART_LayoutRoot">
+    <Setter Property="MinHeight" Value="22" />
+  </Style>
+  <Style Selector="TreeViewItem /template/ ContentPresenter#PART_HeaderPresenter">
+    <Setter Property="MinHeight" Value="22" />
+    <Setter Property="Padding" Value="4,0" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+  </Style>
+  <Style Selector="TreeViewItem TextBlock">
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+  <Style Selector="DataGridCell">
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+  </Style>
+  <Style Selector="DataGridCell TextBlock">
+    <Setter Property="VerticalAlignment" Value="Center" />
+  </Style>
+
+  <!-- Menu bar and popups: frosted, rounded -->
+  <Style Selector="Window.glass Menu">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="Window.glass MenuItem /template/ Border#PART_LayoutRoot">
+    <Setter Property="CornerRadius" Value="8" />
+  </Style>
+  <Style Selector="ContextMenu">
+    <Setter Property="CornerRadius" Value="14" />
+    <Setter Property="Padding" Value="6" />
+    <Setter Property="Background" Value="{DynamicResource GlassPanelStrong}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource GlassBorder}" />
+  </Style>
+
+  <!-- Content surfaces: translucent rounded "glass" cards -->
+  <Style Selector="Window.glass TreeView">
+    <Setter Property="Background" Value="{DynamicResource GlassPanel}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource GlassBorder}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="12" />
+    <Setter Property="Margin" Value="4" />
+  </Style>
+  <Style Selector="Window.glass DataGrid">
+    <Setter Property="Background" Value="{DynamicResource GlassPanel}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource GlassBorder}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="12" />
+    <Setter Property="Margin" Value="4" />
+  </Style>
+  <Style Selector="Window.glass TextBox#LogText">
+    <Setter Property="Background" Value="{DynamicResource GlassPanel}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource GlassBorder}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="12" />
+    <Setter Property="Margin" Value="4" />
+  </Style>
+  <Style Selector="Window.glass Border#PlotHost">
+    <Setter Property="Background" Value="{DynamicResource GlassPanel}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource GlassBorder}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="12" />
+    <Setter Property="Margin" Value="4" />
+  </Style>
+  <Style Selector="Window.glass DataGrid">
+    <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource GlassEdge}" />
+    <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource GlassEdge}" />
+  </Style>
+  <Style Selector="Window.glass DataGridRow">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="Window.glass DataGridColumnHeader">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Padding" Value="6,2" />
+    <Setter Property="MinHeight" Value="24" />
+  </Style>
+  <Style Selector="Window.glass DataGridCell">
+    <Setter Property="MinHeight" Value="22" />
+  </Style>
+
+  <!-- Tree rows -->
+  <Style Selector="Window.glass TreeViewItem /template/ Border#PART_LayoutRoot">
+    <Setter Property="CornerRadius" Value="6" />
+    <Setter Property="Margin" Value="2,0" />
+  </Style>
+  <Style Selector="Window.glass TreeViewItem /template/ Border#PART_LayoutRoot:pointerover">
+    <Setter Property="Background" Value="{DynamicResource GlassHover}" />
+  </Style>
+  <Style Selector="Window.glass TreeViewItem:selected /template/ Border#PART_LayoutRoot">
+    <Setter Property="Background" Value="{DynamicResource GlassSelection}" />
+  </Style>
+
+  <Style Selector="Window.glass :is(UserControl).glasscard">
+    <Setter Property="Background" Value="{DynamicResource GlassPanel}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource GlassBorder}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="12" />
+    <Setter Property="Margin" Value="4" />
+    <Setter Property="ClipToBounds" Value="True" />
+  </Style>
+
+  <!-- Properties tree internals: let the card show through, no frame, compact rows -->
+  <Style Selector="Window.glass :is(UserControl).glasscard ListBox">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="0" />
+  </Style>
+  <Style Selector="Window.glass :is(UserControl).glasscard ListBoxItem">
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="MinHeight" Value="22" />
+  </Style>
+  <Style Selector="Window.glass :is(UserControl).glasscard ListBoxItem:selected /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource GlassSelection}" />
+  </Style>
+  <Style Selector="Window.glass :is(UserControl).glasscard ListBoxItem:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource GlassHover}" />
+  </Style>
+
+  <!-- Controls -->
+  <Style Selector="Window.glass Button">
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="Background" Value="#33FFFFFF" />
+    <Setter Property="BorderBrush" Value="{DynamicResource GlassBorder}" />
+  </Style>
+  <Style Selector="ComboBox">
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+  </Style>
+  <Style Selector="TextBox[AcceptsReturn=False]">
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+  </Style>
+  <Style Selector="Window.glass ComboBox">
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="Background" Value="#26FFFFFF" />
+  </Style>
+  <Style Selector="Window.glass TextBox">
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="Background" Value="#26FFFFFF" />
+  </Style>
+  <Style Selector="Window.glass TabControl">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="Window.glass TabItem">
+    <Setter Property="CornerRadius" Value="10" />
+  </Style>
+  <Style Selector="Window.glass GridSplitter">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+  <Style Selector="Window.glass Border.toolbar">
+    <Setter Property="Background" Value="{DynamicResource GlassPanel}" />
+    <Setter Property="CornerRadius" Value="14" />
+    <Setter Property="Margin" Value="6,2" />
+  </Style>
+</Styles>

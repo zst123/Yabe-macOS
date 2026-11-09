@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Yabe</RootNamespace>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <NoWarn>$(NoWarn);CS0618;CS0168;CS0169;CS0219;CS0649;CS0414;CS1591;CS8981;SYSLIB0014</NoWarn>
+    <!-- Original YABE source, fetched by setup.sh. Compiled in place, never copied. -->
+    <YabeSvnDir Condition="'$(YabeSvnDir)' == ''">$(MSBuildThisFileDirectory)..\..\external\yabe-svn\Yabe\</YabeSvnDir>
+  </PropertyGroup>
+
+  <!-- Platform-neutral logic from the original project. The WinForms files, Windows serial
+       (kernel32) and pcap/websocket transports are deliberately left out for now. -->
+  <ItemGroup>
+    <Compile Include="$(YabeSvnDir)BACnetBase.cs" Link="Yabe/BACnetBase.cs" />
+    <Compile Include="$(YabeSvnDir)BACnetClient.cs" Link="Yabe/BACnetClient.cs" />
+    <Compile Include="$(YabeSvnDir)BACnetDevice.cs" Link="Yabe/BACnetDevice.cs" />
+  </ItemGroup>
+
+  <!-- Per-feature extra linked sources / package refs: drop a *.props file in Imports/ -->
+  <Import Project="Imports/*.props" />
+
+  <!-- macOS does not support setting IP_DONTFRAG on UDP sockets and .NET throws
+       SocketException(45). The transports are compiled from a patched copy generated
+       into obj/ (the SVN checkout itself stays pristine). -->
+  <Target Name="PatchYabeTransports" BeforeTargets="BeforeCompile;CoreCompile">
+    <PropertyGroup>
+      <PatchDir>$(IntermediateOutputPath)patched/</PatchDir>
+    </PropertyGroup>
+    <MakeDir Directories="$(PatchDir)" />
+    <WriteLinesToFile File="$(PatchDir)BACnetTransport.cs" Overwrite="true"
+      Lines="$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText('$(YabeSvnDir)BACnetTransport.cs')), '(\w+\.DontFragment\s*=\s*[^;]+;)', 'try { $1 } catch (System.Net.Sockets.SocketException) { }'))" />
+    <WriteLinesToFile File="$(PatchDir)BACnetTransportIPv6.cs" Overwrite="true"
+      Lines="$([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText('$(YabeSvnDir)BACnetTransportIPv6.cs')), '(\w+\.DontFragment\s*=\s*[^;]+;)', 'try { $1 } catch (System.Net.Sockets.SocketException) { }'))" />
+    <ItemGroup>
+      <Compile Include="$(PatchDir)BACnetTransport.cs;$(PatchDir)BACnetTransportIPv6.cs" />
+    </ItemGroup>
+  </Target>
+</Project>
